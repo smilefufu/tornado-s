@@ -2,6 +2,7 @@
 基本思路：tornado按目录进行渲染，url与目录成对应关系，前端在模板页起始处使用tornado模板语言获取该页所需数据用于页面渲染。同时框架也提供API接口，用于ajax交互使用。
 
 针对tornado框架小改进：
+
 1. override RequestHandler中的write方法，支持datetime对象的序列化。默认以时间戳方式输出。
-2. override RequestHandler中的options方法，支持跨域
-3. 重新配置日志格式，日志改为按天midnight切割
+2. 重新配置日志格式，日志改为按天midnight切割
+3. 暂时还没想到
