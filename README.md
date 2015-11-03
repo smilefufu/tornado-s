@@ -9,4 +9,4 @@
 
 
 运行命令行:
-./start.sh
+python server.py -port=80 -config=config/server.ini 
