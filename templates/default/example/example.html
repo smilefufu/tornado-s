@@ -1,0 +1,17 @@
+<!--
+该example示范了module的调用方式。前端只需要用set语法来设置变量，使用_data对象调用example模块中的foo方法，参数a和b。然后就可以在模块中使用tornado模板语法进行数据绑定。
+{%
+set v = _data.example_foo(a=1,b=2)
+%}
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+{{v}}
+</body>
+</html>
