@@ -5,7 +5,7 @@
 
 1. override RequestHandler中的write方法，支持datetime对象的序列化。默认以时间戳方式输出。可通过override default_json_decoder方法来自定义。
 2. 重新配置日志格式，日志改为按天midnight切割，同时也修改了多进程时的返回值，方便各进程独自写日志。
-3. 暂时还没想到
+3. 暂时还没想到 _
 
 
 运行命令行:
