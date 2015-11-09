@@ -9,13 +9,6 @@ class DataProvider(object):
     def __init__(self, settings):
         """settings为进程配置，进程启动时，选择的config目录ini文件转换后的选项 """
         self.settings = settings
-        
-
-    def foo(self, a=None, b=None):
-        """示例方法，该方法根据传入参数返回数据"""
-        return "result %s %s" % (a,b)
-    def foo2(self, arg):
-        return "do something with %s" % arg
 
     def execute(self, data, handler=None):
         #每个provider只提供唯一的一个execute方法,
@@ -24,6 +17,6 @@ class DataProvider(object):
         # handler: 请求的handler
 
         d = {}
-        d['title'] =  '测试标题'
-        d['paras'] = handler.request.query_arguments
+        d['w'] = handler.get_argument('w', '-')
+        d['data'] = [{'title': 'test', 'content':'内容'}, {'title': '标题', 'content':'内容2'}]
         return d

@@ -1,0 +1,8 @@
+{
+    "search":
+    {
+        "data":{"w":"测试检索词", "data":[{"title": "test", "content":"内容"}, {"title": "标题", "content":"内容3"}]}
+    },
+    "example":{}
+}
+

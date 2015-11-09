@@ -7,6 +7,7 @@ from tornado.escape import utf8, _unicode
 from tornado.util import (unicode_type, ObjectDict)
 from tornado.log import LogFormatter
 from tornado.options import define
+from tornado.util import ObjectDict as ODict
 import json, calendar, datetime, ConfigParser, logging, torndb, redis, traceback
 import logging
 import re
@@ -41,7 +42,63 @@ class ModuleRouter(object):
                 import traceback
                 logging.info(traceback.format_exc())
                 pass
-        
+ 
+
+class ProviderManager(object):
+    #dataprovider管理类，负责解析xx.html.data文件
+    Provider_Cache = {}    
+
+    @classmethod
+    def loadjson(cls, path):
+        file = path
+        fp = open(file, 'r')
+        ret = json.loads(fp.read())
+        fp.close()
+        return ret 
+
+    @classmethod
+    def getproviders(cls, path, debug):
+        path = path + '.data'
+        cache = cls.Provider_Cache
+
+        ps = cache.get(path)
+        if not ps or debug:
+            ps = cls.loadjson(path)
+
+            for p in ps: 
+                ret = ps[p]
+                m = ret.get('class')
+                if not m: m = p
+                module = __import__(m)
+                ret['module'] = module
+
+            cache[path] = ps
+
+        return ps
+
+    @classmethod
+    def getdata(cls, path, handler):
+        #根据path定义的配置文件执行配置的provider返回执行结果
+        debug = handler.settings['debug']
+        ps = cls.getproviders(path, debug)
+
+        #依次执行page中配置的provider
+        data = {}
+        for p in ps:
+            ret = ps[p]
+
+            #配置中是否有测试数据, 如果有测试数据，并且是开发模式，则直接使用测试数据
+            if not debug or not ret.get('data'):
+                dp = ret['module'].DataProvider(handler.settings)
+                ret = dp.execute(data, handler)
+            else:
+                ret = ret['data']
+
+            data[p] = ODict(ret)
+
+        data = ODict(data)
+
+        return data      
 
 class RequestHandler(tornado.web.RequestHandler):
     def get_theme(self):
