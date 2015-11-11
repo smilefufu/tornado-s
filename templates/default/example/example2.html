@@ -1,0 +1,37 @@
+<!--
+该example示范了module的调用方式。前端只需要用set语法来设置变量，使用_data对象调用example模块中的foo方法，参数a和b。然后就可以在模块中使用tornado模板语法进行数据绑定。
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+{{example.title}}
+    </title>
+</head>
+<body>
+{#渲染数据#}
+<table border="1">
+    <tr><th>参数名</th><th>参数值</th></tr>
+    {%set ps = example.paras%}
+    {%for p in ps%}
+    <tr><td>{{p}}</td><td>{{ps[p][0]}}</td></tr>
+    {%end%}
+</table>
+
+<br/>
+<br/>
+<br/>
+
+{#检索结果#}
+<table border="1">
+    <tr><th>标题</th><th>摘要</th></tr>
+    {%set ps = search.data%}
+    检索词：{{search.w}}
+    {%for p in ps%}
+    <tr><td>{{p['title']}}</td><td>{{p['content']}}</td></tr>
+    {%end%}
+</table>
+</body>
+</html>
