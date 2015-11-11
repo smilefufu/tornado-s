@@ -120,18 +120,27 @@ class RequestHandler(tornado.web.RequestHandler):
     def find_template(self):
         """查找theme所在目录下对应路径的文件进行渲染。
         如果是目录，则查找目录下的index.html并返回渲染相对路径，如果是文件则返回文件相对路径。
-        先查找get_theme返回的主题路径，如不存在，再查找default主题下的路径"""
-        path = os.path.normpath(self.request.uri).strip('/')
+        先查找get_theme返回的主题路径，如不存在，再查找default主题下的路径
+        返回local_path和tpl_path，前者用于查找数据配置，后者用于渲染参数。
+        """
+        path = os.path.normpath(self.request.path).strip('/')
         theme = self.get_theme()
         theme_list = ['default'] if theme=='default' else [theme, "default"] 
+        tpl_path = None
         for theme in theme_list:
             local_path = os.path.join(self.settings['template_path'], theme, path)
-            #if os.path.
+            if not os.path.exists(local_path):
+                continue
+            if os.path.isdir(local_path):
+                local_path = "%s/index.html"
+            if os.path.isfile(local_path):
+                tpl_path = local_path.replace(os.path.join(self.settings['template_path'], theme), '')
+        return local_path, tpl_path
 
 
         # theme
-        # 如果不存在，返回404
-        # 如果是目录，则查找目录下的index.html，如没有，返回404，如有返回index.html路径
+        # 如果不存在，tpl_path返回None
+        # 如果是目录，则查找目录下的index.html，如没有，tpl_path返回None，如有返回index.html路径
         # 如果是文件，直接返回文件渲染路径
         pass
 
