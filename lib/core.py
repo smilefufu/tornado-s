@@ -62,13 +62,20 @@ class RequestHandler(tornado.web.RequestHandler):
         path = os.path.normpath(self.request.uri).strip('/')
         theme = self.get_theme()
         theme_list = ['default'] if theme=='default' else [theme, "default"] 
+        tpl_path = None
         for theme in theme_list:
             local_path = os.path.join(self.settings['template_path'], theme, path)
-            #if os.path.
+            if not os.path.exists(local_path):
+                continue
+            if os.path.isdir(local_path):
+                local_path = "%s/index.html"
+            if os.path.isfile(local_path):
+                tpl_path = local_path.replace(os.path.join(self.settings['template_path'], theme), '')
+        return tpl_path
 
 
         # theme
-        # 如果不存在，返回404
+        # 如果不存在，返回None
         # 如果是目录，则查找目录下的index.html，如没有，返回404，如有返回index.html路径
         # 如果是文件，直接返回文件渲染路径
         pass
