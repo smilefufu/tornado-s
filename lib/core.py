@@ -11,6 +11,7 @@ from tornado.util import ObjectDict as ODict
 import json, calendar, datetime, ConfigParser, logging, torndb, redis, traceback
 import logging
 import re
+import os
 
 touch_re = re.compile(r'.*(iOS|iPhone|Android|Windows Phone|webOS|BlackBerry|Symbian|Opera Mobi|UCBrowser|MQQBrowser|Mobile|Touch).*', re.I)
 
@@ -51,6 +52,10 @@ class ProviderManager(object):
     @classmethod
     def loadjson(cls, path):
         file = path
+        if not os.path.exists(file):
+            file = file.split('/')
+            file[1] = 'default'
+            file = '/'.join(file)
         fp = open(file, 'r')
         ret = json.loads(fp.read())
         fp.close()
