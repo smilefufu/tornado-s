@@ -76,6 +76,7 @@ class ProviderManager(object):
                 if not m: m = p
                 module = __import__(m)
                 ret['module'] = module
+                
 
             cache[path] = ps
 
@@ -95,12 +96,22 @@ class ProviderManager(object):
             #配置中是否有测试数据, 如果有测试数据，并且是开发模式，则直接使用测试数据
             if not debug or not ret.get('data'):
                 dp = ret['module'].DataProvider(handler.settings)
-                ret = dp.execute(data, handler)
+                param = ret.get('param') or {}
+                ret = dp.execute(data, handler, **param)
+                '''
+                try:
+                    ret = dp.execute(data, handler, **param)
+                except Exception as e:
+                    print type(dp)
+                    raise e
+                '''
             else:
                 ret = ret['data']
 
-            data[p] = ODict(ret)
+            if type(ret) == dict:
+                ret = ODict(ret)
 
+            data[p] = ret
         data = ODict(data)
 
         return data      
