@@ -29,24 +29,13 @@ class HtmlHandler(RequestHandler):
 
 
     def post(self):
-        uri = os.path.normpath(self.request.uri).strip('/').split('?')[0]
-        print uri
-        path = self.get_theme() + '/' + uri
-        local_path = os.path.join(self.settings['template_path'], path)
-        if not os.path.exists(local_path):
-            self.set_status(404)
-            return self.write("404 not found")
-
-        #解析出provider
-        #ps = self.settings['pages'].get(uri)
-
-
         #页面使用的provider配置在uri同目录下的.html.data文件中
         #比如页面是/example/example2.html, 则配置文件为：/example/example2.html.data
+        local_path, tpl_path = self.find_template()
         data = ProviderManager.getdata(local_path, self)
 
 
-        return self.render(path, **data)
+        return self.render(tpl_path, **data)
 
     def get(self):
         return self.post()
