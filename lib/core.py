@@ -12,6 +12,7 @@ import json, calendar, datetime, ConfigParser, logging, torndb, redis, traceback
 import logging
 import re
 import os
+import sys
 
 touch_re = re.compile(r'.*(iOS|iPhone|Android|Windows Phone|webOS|BlackBerry|Symbian|Opera Mobi|UCBrowser|MQQBrowser|Mobile|Touch).*', re.I)
 
