@@ -12,6 +12,7 @@ import json, calendar, datetime, ConfigParser, logging, torndb, redis, traceback
 import logging
 import re
 import os
+import sys
 
 touch_re = re.compile(r'.*(iOS|iPhone|Android|Windows Phone|webOS|BlackBerry|Symbian|Opera Mobi|UCBrowser|MQQBrowser|Mobile|Touch).*', re.I)
 
@@ -152,13 +153,6 @@ class RequestHandler(tornado.web.RequestHandler):
                 tpl_path = local_path.replace(os.path.join(self.settings['template_path'], theme), '')
         return local_path, tpl_path
 
-
-        # theme
-        # 如果不存在，tpl_path返回None
-        # 如果是目录，则查找目录下的index.html，如没有，tpl_path返回None，如有返回index.html路径
-        # 如果是文件，直接返回文件渲染路径
-        pass
-
     def default_json_decoder(self, obj):
         if isinstance(obj, datetime.datetime):
             if obj.utcoffset() is not None:
@@ -267,7 +261,17 @@ def config_settings(options):
                             db = config.getint(section, 'db'),
                             )
                 except:
-                    pass
+                    logging.info(traceback.format_exc())
+                    print traceback.format_exc()
+        elif section == 'python_path':
+            try: enable = config.getint(section, 'enable')
+            except: enable = 0
+            if enable:
+                try:
+                    path_list = config.get(section, 'path').split(':')
+                    sys.path += path_list
+                except:
+                    logging.info(traceback.format_exc())
         else:
             tmp = ObjectDict()
             for key in config.options(section):
