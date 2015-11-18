@@ -56,9 +56,13 @@ class ProviderManager(object):
             file = file.split('/')
             file[1] = 'default'
             file = '/'.join(file)
-        fp = open(file, 'r')
-        ret = json.loads(fp.read())
-        fp.close()
+
+        if os.path.exists(file):
+            fp = open(file, 'r')
+            ret = json.loads(fp.read())
+            fp.close()
+        else:
+            ret = {}
         return ret 
 
     @classmethod

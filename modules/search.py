@@ -10,7 +10,7 @@ class DataProvider(object):
         """settings为进程配置，进程启动时，选择的config目录ini文件转换后的选项 """
         self.settings = settings
 
-    def execute(self, data, handler=None):
+    def execute(self, data, handler=None, **param):
         #每个provider只提供唯一的一个execute方法,
         # data: 参数是前面provider的执行结果（provider可以需要前面provider的执行数据），
         # paras: url请求的参数

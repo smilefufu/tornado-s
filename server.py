@@ -30,8 +30,9 @@ class HtmlHandler(RequestHandler):
 
     def post(self):
         uri = os.path.normpath(self.request.uri).strip('/').split('?')[0]
-        print uri
         path = self.get_theme() + '/' + uri
+        if path[-1]=='/': path += 'index.html'
+        print uri
         local_path = os.path.join(self.settings['template_path'], path)
         if not os.path.exists(local_path):
             self.set_status(404)
@@ -86,6 +87,14 @@ def main():
     else:
         server.listen(options.port)
     app.settings.update(config_settings(options))
+   
+    #导入python_path
+    paths = app.settings.get('python_path')
+    if paths:
+        paths = paths['path'].split(':')
+        for p in paths:
+            sys.path.append(p)
+
     IOLoop.current().start()
 
 if __name__ == '__main__':

@@ -1,10 +1,770 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title></title>
-</head>
-<body>
-	hello, world!
-</body>
-</html>
+﻿{% extends "base.html" %}
+{%block body%}
+<div class="mainWrap clearfix nc_advert" id="advert_index_A02" style="display:none;"></div>
+{%set geturl=pf.geturl%}
+{%set p=pf.pagef%} 
+    <div class="partL m_t20">
+        
+        <div class="clearfix">
+			<div class="focus-l">
+				<ul id="focusPic">					
+                    {%for r in p['data'][:6]%}
+					<li>							
+						<a href="{{geturl(r)}}" target="_blank">
+							<img alt="{{r['title']}}" src="{{r['img']}}?wf=1" width="420" height="280"/>
+						</a>
+						<div class="txtShadow"></div>
+						<a class="txt" href="{{geturl(r)}}"  target="_blank">
+							{{r['title'] + r['stitle']}}
+						</a>
+					</li>
+                    {%end%}
+				</ul>
+			</div>
+			<div class="focus-r">				
+				<div class="focus-r-a">				
+                    {%set r = p['data'][6]%}
+					<a href="{{geturl(r)}}"  target="_blank">
+						<img alt="" src="{{r['img']}}?wf=1" width="256" height="144"/>
+					</a>
+                    {% if r['title'] %}<a class="txtShadow" href="{{geturl(r)}}"  target="_blank"></a>{% end %}
+					<a class="fra-txt" href="{{geturl(r)}}"  target="_blank">
+						{{r['title']}}
+						<br/>
+						<span class="f12">
+							{{r['stitle']}}
+						</span>
+					</a>
+				</div>
+				{%set r = p['data'][7]%}
+				<a target="_blank" class="recTxt rec-bg1" href="{{geturl(r)}}">
+					{{r['title']}}
+					<br/>
+					<span class="f14">
+						{{r['stitle']}}
+					</span>
+				</a>
+				{%set r = p['data'][8]%}
+				<a target="_blank" class="recTxt rec-bg2" href="{{geturl(r)}}">
+					{{r['title']}}
+					<br/>
+					<span class="f14">
+						{{r['stitle']}}
+					</span>
+				</a>
+			</div>
+		</div>
+
+
+<div class="bodyQa clearfix m_t20 nc_advert" id="advert_index_A06"></div>
+
+        <div class="bodyQa clearfix m_t20">
+    <div class="bodyQa-t">
+        <h3 class="fl"><a href="/ask/" target="_self">大家都在问</a></h3>
+        <div class="tAd" id="tad">
+           
+        </div>
+    </div>
+    
+		<div class="bodyQa-A clearfix">
+            {%set rows = p['data'][9:27]%}
+			{%for i, r in enumerate(rows)%}
+				{%if i % 3==0%}					
+				    <div class="bodyQa-A-1">
+						<div class="bodyQa-c clearfix">
+							<div class="bodyQa-c-l">
+								<a  target="_blank" href="{{geturl(r)}}">
+									<img alt="{{r['title']}}" src="{{r['img']}}?type=esmall&wf=1" width="120" height="80"/>
+								</a>
+							</div>
+							<div class="bodyQa-c-r">
+								<p class="ct">
+									<a target="_blank" href="{{geturl(r)}}">
+										{{r['title'] + r['stitle']}}
+									</a>
+								</p>
+								<p class="ct2">
+									{{r.get('desc','')}}...
+								</p>
+							</div>
+						</div>                    
+                    {%else%}
+                    
+						<p class="bodyQa-A-p">
+							<em class="baseArrows bqr"></em>
+							<a target="_blank" href="{{geturl(r)}}">
+								{{r['title'] + r['stitle']}}
+							</a>
+						</p>
+					{%end%}
+
+                    {%if i%3==2 or i==17 or i == len(rows)-1%}
+                        </div>
+                    {%end%}
+			{%end%}
+		</div>
+</div>
+       
+
+ 
+<div class="bodyQa clearfix m_t20 nc_advert" id="advert_index_A10"></div>
+
+        
+<div class="bodyQa-t">
+    <h3 class="fl"><a href="http://dianping.niuche.com" target="_self">大家都在评</a></h3>
+    <div class="selBrand">
+        <div class="pan_select item-input"></div>
+    </div>
+</div>
+{%set user_url = 'https://user.niuche.com'%}
+{%for c in comments%}
+        <div class="nr-come clearfix">
+            <div class="nr-come-l">
+                <div class="nr-come-lm">
+                    <a href="{{user_url}}/user/{{c["UserID"]}}/" target="_blank">
+                        <img src="http://i0.nextcar.cn/user_{{c["UserID"]}}.jpg?type=u50"
+                            alt="{{c["UserName"]}}" width="60" height="60" /></a>
+                </div>
+                <div class="nr-come-ln">
+                    <p class="f14 fw gray3">
+                        <a href="{{user_url}}/user/{{c["UserID"]}}" target="_blank">{{c["UserName"]}}</a>
+                        <span class="gray2">点评</span>
+                        <a href="http://dianping.niuche.com/cheku/xiangqing{{c["ID"]}}" target="_blank">{{c["SeriesName"]}}&nbsp;{{c["CommentObjectName"]}}</a>
+                    </p>
+                    <div class="pr gray m_t10">
+                        评分：
+                    <div class="pic pic_21" style="margin: -2px 0 0 35px;">
+                        <div class="pic pic_22" style="width: {{(c["TotalScores"]/5)*100}}%;"></div>
+                        <i class="red score">{{c["TotalScores"]}}</i>
+                    </div>
+                    </div>
+                    <p class="gray m_t10">
+                        {{c["Content"][:200]}}...<a target="_blank" class="blue" href="http://dianping.niuche.com/cheku/xiangqing{{c["ID"]}}">[查看详情]</a>
+                    </p>
+                    <p class="m_t8 clearfix">
+                        <span class="fr">
+                            <a class="opBtn red1" href="javascript:void(0);" onclick="SupportOrOpposition(this,{{c["ID"]}},1);"><i class="pic pic_20"></i><i>{{c["Support"]}}</i></a>
+                            <a class="opBtn gray" href="javascript:void(0);" onclick="SupportOrOpposition(this,{{c["ID"]}},0);"><i class="pic pic_11"></i><i>{{c["Opposition"]}}</i></a>
+                        </span>
+                        <i class="gray2">,{{c["Day"]}}</i>
+                    </p>
+                </div>
+            </div>
+            <div class="nr-come-r">
+                <a target="_blank" href="http://dianping.niuche.com/cheku/{{c["SeriesID"]}}.html">
+                    <img class="imgborder" alt="{{c["SeriesName"]}}" width="150" height="100" src="http://i0.nextcar.cn/car/{{c["SeriesID"]}}/car_{{c["SeriesID"]}}.jpg" /></a>
+                <div class="clearfix m_t15">
+                    <a target="_blank" class="carLink clbg1" href="/cheku/peizhi_{{c["SeriesID"]}}">参数配置</a>
+                    <i class="pic pic_9"></i>
+                    <a target="_blank" class="carLink clbg2" href="/cheku/photo_{{c["SeriesID"]}}">实拍图片</a>
+                </div>
+            </div>
+        </div>
+{%end%}
+
+    </div>
+    
+
+    
+    <div class="partR m_t20">
+       {%set experts = recommendexperts.experts%} 
+       {%set count = recommendexperts.count%} 
+        <div class="nLog oh" id="divuinfo">
+            {%if experts%}
+            <div class="clearfix oh">
+                <div class="fl">
+                    <a class="rdBtn regBg" target="_self" href="/reg/register.aspx">注册</a>
+                    <span class="pic pic_6"></span>
+                    <a class="rdBtn logBg" target="_self" href="/reg/login.aspx">登录</a>
+                </div>
+                <div class="fr">
+                    <a class="pic pic_3" href="http://sso.nextcar.cn/login.php?type=sina"></a>
+                    <a class="pic pic_4" href="http://sso.nextcar.cn/login.php?type=qq"></a>
+                </div>
+            </div>
+            
+            <div class="clearfix w100  m_t30">
+                <h3 class="ncbt fl"><i class="bluesp"></i>牛人帮帮忙</h3>
+                <a class="fr blue-1"  target="_blank" href="/ask/expert/" target="_self">已登记{{count}}位牛人</a>
+            </div>
+            <ul class="nridx">
+                {%for e in experts%}
+            <li>
+                <div class="nridx-l">
+                    <a target="_blank" href="{{user_url}}/user/{{e['Id']}}">
+                        <img src="http://i0.nextcar.cn/user_{{e['Id']}}.jpg?type=u50" alt="{{e['RealName']}}" width="40" height="40"/></a>
+                </div>
+                <div class="nridx-r">
+                    <div class="clearfix oh">
+                        <a class="fr gray2" target="_blank" href="/ask/new?uid={{e['Id']}}">向Ta提问</a>
+                        <a target="_blank" href="{{user_url}}/user/{{e['Id']}}" class="f14 fw">{{e['RealName']}}</a>
+                        <span class="job">{{e['ExpertTypeName']}}</span>
+                    </div>
+                    <p class="gray">{{e['Profession']}}</p>
+                </div>
+            </li>
+                {%end%}
+            </ul>
+            {%end%}
+        </div>
+        <div class="m_t30 nc_advert" id="advert_index">
+            
+        </div>
+        
+        <div class="qRmod m_t20">
+            <div class="clearfix oh w100">
+                <h3 class="fl">热门问答</h3>
+                <a class="fr m_t5 blue" href="/ask/" target="_self">更多问答</a>
+            </div>
+
+            <div class="qRmod-a">
+                <ul class="qR-nav">
+                    <li class="cur" style="color: #5CAAFA;">购车<br />
+                        选车<i class="i0"></i></li>
+                    <li>维修<br />
+                        保养<i class="i1"></i></li>
+                    <li>车贷<br />
+                        保险<i class="i3"></i></li>
+                    <li>装饰<br />
+                        改装<i class="i2"></i></li>
+                    <li>二手<br />
+                        车<i class="i4"></i></li>
+                    <li class="last">驾驶<br />
+                        交规<i class="i5"></i></li>
+                </ul>
+                <div class="qRList" id="qrL">
+                    {%for j, qs in enumerate(qa)%}                    
+                    <ul {{'style=display:none' if j>0 else ''}}>        
+                        {%for i, q in enumerate(qs)%}                   
+                        <li>
+                            <span {{"class='qr-top'" if i<3 else ""}}>{{i+1}}</span>
+                            <a target="_blank" href="/ask/{{q['Id']}}.html" title="{{q['Title']}}">{{q['Title'][:36]}}{{'...' if len(q['Title'])>36 else ''}}</a>
+                        </li>
+                        {%end%}
+                    </ul>                    
+                    {%end%}
+                </div>
+            </div>
+        </div>
+        <!--荣誉榜start-->
+        <div class="qRmod m_t30">
+        
+
+<div class="clearfix oh w100">
+    <h3 class="fl">荣誉榜</h3>
+</div>
+<div class="qRmod-a">
+    <div class="rankBox">
+        <ul class="rank-Nav2">
+            <li class="cur">最勤快回答</li>
+            <li>最优秀回答</li>
+            <li>最乐于助人</li>
+        </ul>
+    </div>
+    <div class="qRList" id="rank_c_list">
+       
+    </div>
+</div>
+
+<script>
+    $(function () {
+        var t = 'answer';
+        loadTopUser(t);
+        $('.rank-Nav2 li').each(function (i, o) {
+            if (i == 1)
+                t = 'adop';
+            else if (i == 2)
+                t = 'help';
+            $(o).attr('onclick', 'loadTopUser("' + t + '")');
+        });
+
+    });
+
+    function loadTopUser(t) {
+        $.ajax({
+            url: '/ask/api/qa/getindexlist?type=' + t,
+            dataType: 'json',
+            success: function (data) {
+                //加载用户信息
+                if (data.length > 0) {
+                    var uid = data[0].CreateUserId;
+                    $.ajax({
+                        url: '/reg/api/user.ashx?uid=' + uid,
+                        dataType: 'json',
+                        success: function (u) {
+                            var html = '<ul>';
+                            var l = '上周回答';
+                            if (t == 'help')
+                                l = '上周帮助人数';
+                            $(data).each(function (i, o) {
+                                if (i == 0) {
+                                    html += '\
+                                    <li style="height: auto; padding-bottom: 5px">\
+                                        <div class="rank_top_1">\
+                                            <a href="{{user_url}}/user/'+ u.id + '" target="_blank">\
+                                                <img src="http://i0.nextcar.cn/user_' + u.id + '.jpg?type=u50" alt="" width="60" height="60" />\
+                                                <b class="pic"></b>\
+                                            </a>\
+                                        </div>\
+                                        <div class="rank_top_1_l">\
+                                            <p><a class="f14 fw" href="{{user_url}}/user/' + u.id + '" target="_blank">' + u.un + '</a></p>\
+                                            <p class="gray m_t5">职位：' + u.pro + '</p>\
+                                            <p class="gray">'+ l + '：<b style="color: #F26D7E; font-weight: normal">' + o.c + '</b>题</p>\
+                                            <p class="gray">好评率：<b style="color: #F26D7E; font-weight: normal">' + u.score + '％</b></p>\
+                                        </div>\
+                                    </li>';
+                                }
+                                else {
+                                    html += '\
+                                    <li>\
+                                        <span' + (i < 3 ? " class='qr-top'" : "") + '>' + (i + 1) + '</span>\
+                                        <a href="{{user_url}}/user/' + o.CreateUserId + '" target="_blank">' + o.CreateUserName + '</a>\
+                                        <i style="color:#6B6B6B">上周回答：<b style="color:#F26D7E; font-weight:normal">' + o.c + '</b>题</i>\
+                                    </li>';
+                                }
+                            });
+                            html += '</ul>';
+                            $('#rank_c_list').html(html);
+                        }
+                    });
+                }
+
+            }
+        });
+    }
+
+</script>
+        </div>
+        <!--荣誉榜end-->
+        
+        
+        
+        <div class="qRmod m_t30">
+            <div class="clearfix oh w100">
+                <h3 class="fl">汽车点评排行榜</h3>
+                
+            </div>
+            <div class="qRmod-a">
+                <div class="rankBox">
+                    <i class="pic pic_7 hidden"></i>
+                    <i class="pic pic_8 hidden"></i>
+                    <ul class="rank-Nav">
+                        <li class="cur" rtype="2">紧凑车型</li>
+                        <li rtype="3">中型车</li>
+                        <li rtype="7">SUV</li>
+                    </ul>
+                </div>
+                
+                <div class="qRList">
+                    
+                    
+        <ul id="hotCars">
+    
+        </ul>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="bodyQa-A-t m_t20" style="display:none">
+            <em class="o1"></em>
+            <h4 class="fl">近期活动</h4>
+            <a href="/huodong" class="fr blue">更多活动</a>
+        </div>
+
+        <div class="hdrec" id="divF3" style="display:none">
+            
+        </div>
+    </div>
+    <!--<a class="scanApp" href="/app/index.html" target="_blank"></a>-->
+
+    <div class="mainWrap clearfix nc_advert" style="float:left;margin-top:20px;" id="advert_index_A13"></div>
+
+    <div class="blogroll">
+        <ul class="link_nav tab">
+            <li class="current">友情链接</li>
+            <li>热门品牌</li>
+            <li>热门车型</li>
+        </ul>
+        {%set fl = friend_link.pagef%}
+        <div class="tabContent">
+            <div class="tab_con block">
+				{%for r in fl['data'] %}
+					<a href="{{ r['url'] }}" target="_blank">{{ r['text'] }}</a>
+				{% end %}
+            </div>
+            <div class="tab_con">
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%A4%A7%E4%BC%97">大众</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%A5%A5%E8%BF%AA">奥迪</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E4%B8%B0%E7%94%B0">丰田</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%AE%9D%E9%A9%AC">宝马</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E7%A6%8F%E7%89%B9">福特</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E9%9B%AA%E4%BD%9B%E5%85%B0">雪佛兰</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%A5%94%E9%A9%B0">奔驰</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E9%95%BF%E5%9F%8E">长城</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%9C%AC%E7%94%B0">本田</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%97%A5%E4%BA%A7">日产</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E7%8E%B0%E4%BB%A3">现代</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%88%AB%E5%85%8B">别克</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E8%B5%B7%E4%BA%9A">起亚</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=jeep">JEEP吉普</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E9%A9%AC%E8%87%AA%E8%BE%BE">马自达</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%A5%87%E7%91%9E">奇瑞</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E8%B7%AF%E8%99%8E">路虎</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%A0%87%E8%87%B4">标致</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E9%95%BF%E5%AE%89">长安</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E9%93%83%E6%9C%A8">铃木</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E9%9B%AA%E4%BD%9B%E5%85%B0">雪铁龙</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%A5%94%E8%85%BE">奔腾</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E9%9B%B7%E5%85%8B%E8%90%A8%E6%96%AF">雷克萨斯</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%B2%83%E5%B0%94%E6%B2%83">沃尔沃</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E4%BF%9D%E6%97%B6%E6%8D%B7">保时捷</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E4%B8%89%E8%8F%B1">三菱</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E4%B8%AD%E5%8D%8E">中华</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E8%8B%B1%E8%8F%B2%E5%B0%BC%E8%BF%AA">英菲尼迪</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E8%8D%A3%E5%A8%81">荣威</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%8D%B7%E8%B1%B9">捷豹</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%B1%9F%E6%B7%AE">江淮</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%96%AF%E5%B7%B4%E9%B2%81">斯巴鲁</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=MG">MG</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%B5%B7%E9%A9%AC">海马</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%87%AF%E8%BF%AA%E6%8B%89%E5%85%8B">凯迪拉克</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E4%B8%9C%E9%A3%8E%E9%A3%8E%E7%A5%9E">东风风神</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E8%AE%B4%E6%AD%8C">讴歌</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E4%BA%94%E8%8F%B1">五菱汽车</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%B9%BF%E6%B1%BD%E4%BC%A0%E7%A5%BA">广汽传祺</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%8A%B3%E6%96%AF%E8%8E%B1%E6%96%AF">劳斯莱斯</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%93%88%E5%BC%97">哈弗</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E8%8F%B2%E4%BA%9A%E7%89%B9">菲亚特</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%90%89%E5%88%A9">吉利</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=MINI">MINI</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%A5%94%E8%85%BE">奔腾</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%AE%9D%E9%AA%8F">宝骏</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E4%BC%97%E6%B3%B0">众泰</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E4%B8%9C%E9%A3%8E%E9%A3%8E%E7%A5%9E">东风风行</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E4%B8%80%E6%B1%BD">一汽</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%B9%BF%E6%B1%BD">广汽</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E5%85%B0%E5%8D%9A%E5%9F%BA%E5%B0%BC">兰博基尼</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E9%99%86%E9%A3%8E">陆风</a>
+
+
+            </div>
+            <div class="tab_con">
+                <a target="_blank" href="http://www.niuche.com/cheku/series_692">奥迪A4</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_18">奥迪A6</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_412">奥迪Q7</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_812">奥迪Q5</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2951">奥迪Q3</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_877">标致308</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2299">标致508</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_987">标致408</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_3234">标致2008</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_81">飞度</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_78">雅阁</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_135">本田思域</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_314">本田crv</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_65">宝马5系</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_271">宝马X3</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_66">宝马3系</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2562">奔驰GLK</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_588">奔驰C200</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_164">君威</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_834">君越</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_875">凯越</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_982">英朗</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2896">昂科拉</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_166">别克GL8</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_172">卡宴</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/brand_40">保时捷</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/brand_39">宾利</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/brand_75">比亚迪</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_632">奔腾</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2236">宝骏</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2341">启辰</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_3217">长安奔奔</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?q=%E6%82%A6%E7%BF%94">悦翔</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2778">长安CS35</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_210">甲壳虫</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_871">高尔夫</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_496">迈腾</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_905">大众CC</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_145">polo</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2922">桑塔纳</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_528">帕萨特</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_874">途观</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_614">朗逸</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_633">宝来</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_16">捷达</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_442">速腾</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_46">普拉多</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_526">卡罗拉</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_771">汉兰达</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_110">凯美瑞</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_117">蒙迪欧</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_364">福克斯</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_659">嘉年华</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2863">翼虎</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2871">翼搏</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_3615">锐界</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_601">菲亚特</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2560">广汽传祺</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/brand_43">悍马h2</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2123">哈弗h6</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_121">牧马人</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_504">指南者</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_777">自由客</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_3062">自由光</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_3207">凯迪拉克</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_101">夏利</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_69">揽胜</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%9E%81%E5%85%89">极光</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_201">雷克萨斯</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2176">速翼特</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/brand_53">铃木</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_872">奥拓</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_209">MINI</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_289">玛莎拉蒂总裁</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_22">马自达6</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E6%98%82%E5%85%8B%E8%B5%9B%E6%8B%89">昂克赛拉</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2642">讴歌</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?q=%E7%91%9E%E8%99%8E">瑞虎</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2989">奇瑞qq</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=smart">smart</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2417">斯巴鲁</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_377">帕杰罗</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_404">沃尔沃s60</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_585">沃尔沃xc60</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E7%B4%A2%E7%BA%B3%E5%A1%94">索纳塔</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=&q=%E9%80%94%E8%83%9C">途胜</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_98">爱丽舍</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_657">科鲁兹</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2313">迈锐宝</a>
+                <a target="_blank" href="http://search.niuche.com/index.php?dt=1&q=%E5%AF%8C%E5%BA%B7">富康</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_792">雪铁龙c5</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_2992">英菲尼迪Q50</a>
+                <a target="_blank" href="http://www.niuche.com/cheku/series_3097">英菲尼迪Q70</a>
+
+            </div>
+        </div>
+    </div><!--友情链接-->
+
+    <div class="scroll-list">
+        <table cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td>
+                    <div class="content">
+                        <div class="sl-icon-01"></div>
+                        <a href="/ask/new" target="_blank" class="hover">我要<br />提问</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="content">
+                        <div class="sl-icon-02"></div>
+                        <a href="javascript://" class="hover">牛车<br />改装</a>
+                        <div class="ewm">
+                            <i></i>
+                            <img src="/static/images/sl_gzb.png" />
+                            <p>扫一扫下载牛车改装</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="content">
+                        <div class="sl-icon-03"></div>
+                        <a href="javascript://" class="hover">关注<br />微信</a>
+                        <div class="ewm">
+                            <i></i>
+                            <img src="/images/wx.jpg" />
+                            <p>关注牛车网微信</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="content">
+                        <div class="sl-icon-04"></div>
+                        <a href="javascript://" class="hover" onclick="feedbackshowDiv();">意见<br />反馈</a>
+                    </div>
+                </td>
+            </tr>
+            <tr id="sl_backtop" style="display: none;">
+                <td>
+                    <div class="content">
+                        <div class="sl-icon-05"></div>
+                        <a href="javascript://" class="hover sl-backtop">返回<br />顶部</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="nc_advert" id="advert_index_scroll" data-type="scroll"></div>
+    </div>
+    <script type="text/javascript">
+        $('.scroll-list td').hover(function () {
+            $('.hover', $(this)).show();
+            $('.ewm', $(this)).show();
+        }, function () {
+            $('.hover', $(this)).hide();
+            $('.ewm', $(this)).hide();
+        });
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 150) {
+                $("#sl_backtop").show();
+            }
+            else {
+                $("#sl_backtop").hide();
+            }
+        });
+        $('.sl-backtop').click(function () {
+            $('body,html').animate({ scrollTop: 0 }, 300);
+        });
+
+        $(".tab").each(function(tIndex){
+            var tabIndex = tIndex;
+            $(this).find("li").each(function(tlindex) {
+                var tabLiIndex = tlindex;
+                $(this).click(function() {
+                    $(this).addClass("current").siblings("li").removeClass("current");
+                    $(".tabContent").eq(tIndex).find(".tab_con").removeClass("block");
+                    $(".tabContent").eq(tIndex).find(".tab_con:eq("+tabLiIndex+")").addClass("block");
+                });
+            });
+        });
+    </script>
+    <!--连续回答牛人榜-->
+    <div class="continueList" id="continueList" style="display:none">
+        <span class="c_close_btn" title="关闭"></span>
+        <div class="con-left-box txtcenter">
+            <p class="gray f16 fYaHei" id="line1"></p>
+            <p class="dayCount f14 gray fYaHei">第<i id="cday2" class="orange" style="font:bold 36px 'Microsoft YaHei'">0</i>天</p>
+            <p class="gray f18" style="margin-top:80px" id="line2"></p>
+            <p class="gray f12" style="margin-top:10px" id="line3"></p>
+        </div>
+        <div class="con-right-box"><!--data--></div>
+    </div>
+    <div style="display:none;">
+        <div class="bind-email-box" id="bind_email">
+            <div class="bind-email-close"></div>
+            <div class="bind-email-top clearfix">
+                <img src="" id="bind_user_pic" width="65" height="65" class="upic"/>
+                <strong><span id="bind_user_name">content</span>，你好，你正在通过 <span class="red" id="bind_email_type"></span> 登录 <span class="blue">牛车网</span></strong>
+            </div>
+            <table class="bind-email-table">
+                <tr>
+                    <td><strong>绑定账号</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        邮箱：<input type="text" class="text" id="email_text" placeholder="请输入邮箱" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <a href="javascript://" class="bind-email-btn">完成绑定，进入牛车网</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function validateEmail(e) {
+            var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+            return re.test(e);
+        };
+
+        $(document).ready(function () {            
+            if ($.cookie('userID') > 0 || $.cookie('userID') != null) {//未登录
+                var uid = $.cookie('userID');
+                $.ajax({
+                    url: '/reg/api/checkthreeuseremail.ashx?userid=' + uid,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.code == 1) {
+                            $('#bind_email_type').html(result.type);
+                            $('#bind_user_name').html($.cookie('userName'));
+                            $('#bind_user_pic').attr('src', 'http://i0.nextcar.cn/user_100_100_1_' + uid + '.jpg');
+                            $.colorbox({
+                                inline: true,
+                                href: '#bind_email',
+                                closeButton: false,
+                                opacity: 0.6,
+                                overlayClose: false
+                            });
+                        }
+                    }
+                });
+            }
+
+            $('.bind-email-close').click(function () {
+                $.colorbox.close();
+            });
+
+
+            $('.bind-email-btn').click(function () {
+                var $email = $('#email_text');
+
+                if ($email.val() == '') {
+                    $email.addClass('text-error');
+                    $email.focus();
+                    return;
+                } else if (!validateEmail($email.val())) {
+                    $email.addClass('text-error');
+                    $email.focus();
+                    alert('格式不对');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/reg/api/checkEmail.ashx',
+                    data: { email: $email.val() },
+                    type: 'POST',
+                    success: function (result) {
+                        if (result == '1') {
+                            $.ajax({
+                                url: '/reg/api/updateuseremail.ashx',
+                                data: { userid: $.cookie('userID'), email: $email.val() },
+                                type: 'POST',
+                                success: function (result) {
+                                    if (result > 0) {
+                                        $.colorbox.close();
+                                        $.ajax({
+                                            url: '/script/v_log.js',
+                                            dataType: 'script',
+                                            cache: true,
+                                            success: function () {
+                                                new LogBox({
+                                                    isLogin: 3,
+                                                    text: '绑定成功！'
+                                                });
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        } else {
+                            $email.addClass('text-error');
+                            $email.focus();
+                            alert('绑定失败，邮箱已存在');
+                            return;
+                        }
+                    }
+                });
+
+            });
+
+            $('#email_text').keyup(function () {
+                $(this).removeClass('text-error');
+            });
+        });
+    </script>
+    <script type="text/javascript" src="/feedback/API/Handler.ashx?projectid=1"></script>
+    
+    <script src="/static/js/jquery-panSelect.js"></script> 
+    <script src="/static/js/advert.js"></script> 
+{%end%}

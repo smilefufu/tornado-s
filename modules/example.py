@@ -17,7 +17,7 @@ class DataProvider(object):
     def foo2(self, arg):
         return "do something with %s" % arg
 
-    def execute(self, data, handler=None):
+    def execute(self, data, handler=None, **param):
         #每个provider只提供唯一的一个execute方法,
         # data: 参数是前面provider的执行结果（provider可以需要前面provider的执行数据），
         # paras: url请求的参数
