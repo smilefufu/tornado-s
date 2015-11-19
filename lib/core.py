@@ -151,6 +151,7 @@ class RequestHandler(tornado.web.RequestHandler):
                 local_path = os.path.normpath("%s/index.html" % local_path)
             if os.path.isfile(local_path):
                 tpl_path = local_path.replace(self.settings['template_path'], '').strip('/')
+                break
         return local_path, tpl_path
 
     def default_json_decoder(self, obj):
